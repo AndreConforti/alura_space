@@ -1,0 +1,19 @@
+{% extends 'galeria/base.html' %}
+{% load static %}
+
+{% block 'content' %}
+    <section class="conteudo">
+        <section class="imagem">
+            <div class="imagem__conteudo">
+                <img class="imagem__imagem" src="{% static '/assets/imagens/galeria/'%}{{ fotografia.foto }}">
+                <div class="imagem__info">
+                    <div class="imagem__texto">
+                        <p class="imagem__titulo">{{ fotografia.nome }}</p>
+                        <p class="imagem__descricao">{{ fotografia.legenda }}</p>
+                        <p class="imagem__texto">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt velit ut id autem. Molestiae nam laborum commodi quod repellat, iusto possimus excepturi sunt provident voluptatibus necessitatibus officia, at vel nemo. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint, in quibusdam inventore, eaque quidem, qui quasi praesentium vero quam alias sit suscipit. Dolor earum incidunt, alias nobis consectetur ipsum delectus!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+{% endblock 'content' %}
