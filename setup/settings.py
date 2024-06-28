@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     
     ## My apps
     'galeria.apps.GaleriaConfig',
+    'usuarios.apps.UsuariosConfig',
 ]
 
 MIDDLEWARE = [
