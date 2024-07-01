@@ -2,6 +2,8 @@ from pathlib import Path, os
 from dotenv import load_dotenv
 from django.contrib.messages import constants as messages
 
+load_dotenv()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -29,8 +31,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     ## My apps
-    'galeria.apps.GaleriaConfig',
-    'usuarios.apps.UsuariosConfig',
+    'apps.galeria.apps.GaleriaConfig',
+    'apps.usuarios.apps.UsuariosConfig',
+
+    ## 3th apps
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -105,15 +110,42 @@ USE_I18N = True
 
 USE_TZ = True
 
+## AWS Configuration
+AWS_ACCESS_KEY_ID = str(os.getenv('AWS_ACCESS_KEY_ID'))   ## ID do usário da AWS
+
+AWS_SECRET_ACCESS_KEY = str(os.getenv('AWS_SECRET_ACCESS_KEY')) ## Chave Secreta
+
+AWS_STORAGE_BUCKET_NAME = str(os.getenv('AWS_STORAGE_BUCKET_NAME'))  ## Nome do bucket
+
+AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'  ## Nome customizado que vai aparecer quando acessar o link
+
+AWS_DEFAULT_ACL = 'public-read'   ## Public Read de acordo como está no AWS
+
+AWS_S3_PARAMETERS = {
+    'Chace-Control': 'max-age=86400',   ## Máximo de cache controlado na aplicação. Valores padrões
+}
+
+AWS_LOCATION = 'static'    ## No caso dessa aplicação
+
+AWS_QUERYSTRING_AUTH = False
+
+AWS_HEADERS = {
+    'Access-Control-Allow-Origin': '*',   ## Permite o acesso a qualquer header
+}
+    
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+DEFAULT_FILE_STORAGE = "storages.backends.s3.S3Storage"
+
+STATICFILES_STORAGE = "storages.backends.s3.S3Storage"
+
+STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'setup/static')]
 
-MEDIA_URL = '/media/'
+MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
